@@ -1292,7 +1292,8 @@
                             @endif
                             <a href="{{ route('admin.index') }}" class="profile-menu-link" style="color: #38bdf8; font-weight: 700;">⚙️ Admin Panel</a>
                             <a href="{{ route('seller.index') }}" class="profile-menu-link" style="color: #16a34a; font-weight: 700;">🏬 Seller Central</a>
-                            <a href="#" class="profile-menu-link" onclick="showToast('Opening My Orders...')">📦 My Orders</a>
+                            <a href="{{ route('user.orders') }}" class="profile-menu-link">📦 My Orders</a>
+                            <a href="{{ route('user.checkout') }}" class="profile-menu-link" style="color: #2563eb; font-weight: 700;">💳 Checkout</a>
                             <a href="#" class="profile-menu-link" onclick="showToast('Opening Wishlist...')">❤️ Saved Wishlist</a>
                             <a href="#" class="profile-menu-link" onclick="showToast('Opening Customer Support...')">🎧 Customer Support</a>
                         </div>
@@ -1323,12 +1324,12 @@
                     <div class="drawer-section">
                         <div class="drawer-title">
                             <span>YOUR SHOPPING CART</span>
-                            <span id="cartTotalDisplay" style="color: #2563eb; font-weight: 700;">$0.00</span>
+                            <span id="cartTotalDisplay" style="color: #2563eb; font-weight: 700;">₹0.00</span>
                         </div>
                         <div class="cart-items-list" id="cartItemsList">
                             <div style="color: #64748b; font-size: 0.8rem; text-align: center; padding: 12px;">Your cart is empty.</div>
                         </div>
-                        <button class="cart-checkout-btn" onclick="alert('Proceeding to Checkout!')">Checkout Now</button>
+                        <button class="cart-checkout-btn" onclick="window.location.href='{{ route('user.checkout') }}'">Proceed to Checkout →</button>
                     </div>
 
                     <!-- Recently Viewed Items Section -->

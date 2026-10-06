@@ -778,7 +778,8 @@
                             @endif
                             <a href="{{ route('admin.index') }}" class="profile-menu-link" style="color: #38bdf8; font-weight: 700;">⚙️ Admin Panel</a>
                             <a href="{{ route('seller.index') }}" class="profile-menu-link" style="color: #16a34a; font-weight: 700;">🏬 Seller Central</a>
-                            <a href="#" class="profile-menu-link" onclick="showToast('Opening My Orders...')">📦 My Orders</a>
+                            <a href="{{ route('user.orders') }}" class="profile-menu-link">📦 My Orders</a>
+                            <a href="{{ route('user.checkout') }}" class="profile-menu-link" style="color: #2563eb; font-weight: 700;">💳 Checkout</a>
                             <a href="#" class="profile-menu-link" onclick="showToast('Opening Wishlist...')">❤️ Saved Wishlist</a>
                             <a href="#" class="profile-menu-link" onclick="showToast('Opening Customer Support...')">🎧 Customer Support</a>
                         </div>
@@ -799,6 +800,7 @@
                     <div class="drawer-section">
                         <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; margin-bottom: 8px;">SHOPPING CART</div>
                         <div id="cartItemsList" style="font-size: 0.8rem; color: #64748b;">Cart is empty</div>
+                        <button class="cart-checkout-btn" onclick="window.location.href='{{ route('user.checkout') }}'" style="width: 100%; margin-top: 12px; padding: 10px; background: #0f172a; color: #fff; border: none; border-radius: 12px; font-weight: 700; cursor: pointer;">Proceed to Checkout →</button>
                     </div>
                     <div class="drawer-section">
                         <div style="font-size: 0.75rem; font-weight: 800; color: #64748b; margin-bottom: 8px;">NAVIGATION</div>

@@ -144,16 +144,31 @@ class AdminController extends Controller
     }
 
     /**
-     * View all customer orders.
+     * View all customer orders with buyer and seller details.
      */
     public function ordersIndex()
     {
-        $orders = Order::with('items')->latest()->get();
+        $orders = Order::with(['items.product.seller', 'user'])->latest()->get();
         return view('admin.orders', compact('orders'));
     }
 
     /**
-     * Update order and payment status.
+     * One-click Order Confirmation by Admin.
+     */
+    public function confirmOrder(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+        $order->order_status = 'processing';
+        if ($order->payment_status === 'pending') {
+            $order->payment_status = 'paid';
+        }
+        $order->save();
+
+        return redirect()->back()->with('success', 'Order #' . $order->order_number . ' has been CONFIRMED & marked as Processing!');
+    }
+
+    /**
+     * Update order and payment status manually.
      */
     public function updateOrderStatus(Request $request, $id)
     {

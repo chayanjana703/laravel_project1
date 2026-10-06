@@ -56,6 +56,7 @@ Route::middleware('adminmiddleware')->group(function () {
 
     // Admin Orders Manager
     Route::get('/admin/orders', [AdminController::class, 'ordersIndex'])->name('admin.orders.index');
+    Route::post('/admin/orders/{id}/confirm', [AdminController::class, 'confirmOrder'])->name('admin.orders.confirm');
     Route::put('/admin/orders/{id}/status', [AdminController::class, 'updateOrderStatus'])->name('admin.orders.update-status');
 
     // Admin Storefront Hero Section Cards Manager

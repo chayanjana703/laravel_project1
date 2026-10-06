@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders & Dispatch — UnCart Admin</title>
+    <title>Orders & Fulfillment — UnCart Admin</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,16 +61,37 @@
         .bento-table-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 32px; padding: 32px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.03); }
         .aura-table { width: 100%; border-collapse: collapse; text-align: left; }
         .aura-table th { padding: 14px; color: #64748b; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; border-bottom: 1.5px solid #f1f5f9; }
-        .aura-table td { padding: 16px 14px; color: #0f172a; font-size: 0.9rem; font-weight: 600; border-bottom: 1px solid #f8fafc; vertical-align: middle; }
+        .aura-table td { padding: 16px 14px; color: #0f172a; font-size: 0.9rem; font-weight: 600; border-bottom: 1px solid #f8fafc; vertical-align: top; }
 
-        .table-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .table-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: inline-block; }
         .table-badge.success { background: #f0fdf4; color: #16a34a; }
         .table-badge.pending { background: #fffbeb; color: #d97706; }
         .table-badge.info { background: #eff6ff; color: #2563eb; }
         .table-badge.danger { background: #fef2f2; color: #ef4444; }
 
-        .action-circle-btn { background: #f1f5f9; border: 1px solid #e2e8f0; color: #0f172a; padding: 8px 16px; border-radius: 14px; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease; }
-        .action-circle-btn:hover { background: #0f172a; color: #ffffff; border-color: #0f172a; }
+        .btn-confirm-order {
+            background: #16a34a;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-confirm-order:hover {
+            background: #15803d;
+            transform: translateY(-1px);
+        }
+
+        .action-circle-btn { background: #0f172a; border: 1px solid #0f172a; color: #ffffff; padding: 6px 12px; border-radius: 10px; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease; }
+        .action-circle-btn:hover { background: #2563eb; border-color: #2563eb; }
 
         .status-select {
             padding: 6px 10px;
@@ -91,6 +112,36 @@
             margin-bottom: 24px;
             font-weight: 600;
             font-size: 0.9rem;
+        }
+
+        .buyer-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 12px;
+            font-size: 0.83rem;
+            line-height: 1.5;
+        }
+
+        .seller-box {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.78rem;
+            color: #92400e;
+            margin-top: 6px;
+        }
+
+        .buyer-tag {
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            margin-left: 6px;
         }
 
         @media (max-width: 900px) {
@@ -117,7 +168,8 @@
                     <a href="{{ route('admin.index') }}" class="nav-link">Dashboard</a>
                     <a href="{{ route('admin.products.index') }}" class="nav-link">Products</a>
                     <a href="{{ route('admin.orders.index') }}" class="nav-link active">Orders</a>
-                    <a href="{{ route('admin.users.index') }}" class="nav-link">Customers</a>
+                    <a href="{{ route('admin.users.index') }}" class="nav-link">Users</a>
+                    <a href="{{ route('admin.reviews.index') }}" class="nav-link">Reviews</a>
                     <a href="{{ route('admin.settings') }}" class="nav-link">Settings</a>
                 </div>
 
@@ -153,6 +205,7 @@
                         <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
                             <a href="{{ route('admin.index') }}" style="color: #2563eb; text-decoration: none; font-weight: 700;">📊 Main Dashboard Overview</a>
                             <a href="{{ route('admin.products.index') }}" style="color: #2563eb; text-decoration: none; font-weight: 700;">📦 Products Catalog Manager</a>
+                            <a href="{{ route('admin.orders.index') }}" style="color: #2563eb; text-decoration: none; font-weight: 700;">📋 Order Confirmation Center</a>
                         </div>
                     </div>
                     <div class="drawer-section">
@@ -168,8 +221,8 @@
 
     <main class="page-wrapper">
         <div style="margin-bottom: 28px;">
-            <h1 style="font-family: 'Space Grotesk', sans-serif; font-size: 2.4rem; font-weight: 700; color: #0f172a;">Orders & Fulfillment</h1>
-            <p style="color: #64748b; font-size: 0.95rem; margin-top: 4px;">Live customer orders, shipping addresses & status updates</p>
+            <h1 style="font-family: 'Space Grotesk', sans-serif; font-size: 2.4rem; font-weight: 700; color: #0f172a;">Order Confirmation & Fulfillment Center</h1>
+            <p style="color: #64748b; font-size: 0.95rem; margin-top: 4px;">Confirm pending orders, inspect Buyer & Seller details, and manage shipping dispatches</p>
         </div>
 
         @if(session('success'))
@@ -183,48 +236,102 @@
                 <div style="text-align: center; padding: 40px; color: #64748b;">
                     <div style="font-size: 2.5rem; margin-bottom: 10px;">📦</div>
                     <div style="font-weight: 700; font-size: 1.1rem; color: #0f172a;">No orders received yet</div>
-                    <p style="font-size: 0.88rem; margin-top: 4px;">Orders placed by users on the store checkout page will appear here live.</p>
+                    <p style="font-size: 0.88rem; margin-top: 4px;">Orders placed by users on the store checkout page will appear here live for confirmation.</p>
                 </div>
             @else
                 <table class="aura-table">
                     <thead>
                         <tr>
-                            <th>Order ID</th>
-                            <th>Customer</th>
-                            <th>Shipping Address</th>
-                            <th>Items</th>
-                            <th>Total Amount</th>
-                            <th>Payment</th>
-                            <th>Order Status</th>
-                            <th>Action</th>
+                            <th>Order & Date</th>
+                            <th>Buyer Details</th>
+                            <th>Items & Seller Info</th>
+                            <th>Total & Payment</th>
+                            <th>Status</th>
+                            <th>Admin Confirmation & Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($orders as $order)
                             <tr>
-                                <td><strong>{{ $order->order_number }}</strong><br><span style="font-size: 0.72rem; color: #64748b;">{{ $order->created_at->format('M d, Y') }}</span></td>
                                 <td>
-                                    {{ $order->customer_name }}<br>
-                                    <span style="font-size: 0.75rem; color: #64748b;">{{ $order->customer_email }}</span><br>
-                                    <span style="font-size: 0.75rem; color: #64748b;">{{ $order->customer_phone }}</span>
+                                    <strong>{{ $order->order_number }}</strong>
+                                    <div style="font-size: 0.75rem; color: #64748b; margin-top: 2px;">
+                                        {{ $order->created_at->format('M d, Y • h:i A') }}
+                                    </div>
+                                    @if($order->order_status === 'pending')
+                                        <div style="margin-top: 6px;">
+                                            <form action="{{ route('admin.orders.confirm', $order->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn-confirm-order">
+                                                    ✓ Confirm Order
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @endif
                                 </td>
-                                <td style="max-width: 200px; font-size: 0.82rem; color: #475569;">
-                                    {{ $order->shipping_address }}, {{ $order->city }}, {{ $order->state }} - {{ $order->zip_code }}
-                                </td>
-                                <td>
-                                    <span style="font-weight: 700; color: #0f172a;">{{ $order->items->sum('quantity') }} items</span>
-                                    <div style="font-size: 0.75rem; color: #64748b;">
-                                        @foreach($order->items->take(2) as $item)
-                                            • {{ Str::limit($item->product_title, 18) }}<br>
-                                        @endforeach
+
+                                <!-- BUYER DETAILS -->
+                                <td style="min-width: 220px;">
+                                    <div class="buyer-box">
+                                        <div style="font-weight: 800; color: #0f172a;">
+                                            👤 {{ $order->customer_name }}
+                                            @if($order->user)
+                                                <span class="buyer-tag">Member</span>
+                                            @else
+                                                <span class="buyer-tag" style="background: #64748b;">Guest</span>
+                                            @endif
+                                        </div>
+                                        <div style="color: #2563eb; font-weight: 600; font-size: 0.78rem;">📧 {{ $order->customer_email }}</div>
+                                        <div style="color: #475569; font-size: 0.78rem;">📞 {{ $order->customer_phone }}</div>
+                                        <div style="font-size: 0.76rem; color: #64748b; margin-top: 4px; border-top: 1px dashed #cbd5e1; padding-top: 4px;">
+                                            📍 {{ $order->shipping_address }}, {{ $order->city }}, {{ $order->state }} - {{ $order->zip_code }}, {{ $order->country }}
+                                        </div>
                                     </div>
                                 </td>
-                                <td>₹{{ number_format($order->total_amount, 2) }}</td>
-                                <td>
-                                    <span class="table-badge {{ $order->payment_status === 'paid' ? 'success' : 'pending' }}">
-                                        {{ strtoupper($order->payment_method) }}: {{ ucfirst($order->payment_status) }}
-                                    </span>
+
+                                <!-- ITEMS & SELLER DETAILS -->
+                                <td style="min-width: 260px;">
+                                    <div style="font-weight: 700; color: #0f172a; margin-bottom: 6px;">
+                                        📦 {{ $order->items->sum('quantity') }} Items
+                                    </div>
+                                    @foreach($order->items as $item)
+                                        <div style="padding: 6px 0; border-bottom: 1px dashed #f1f5f9;">
+                                            <div style="font-weight: 700; font-size: 0.85rem; color: #0f172a;">
+                                                • {{ $item->product_title }} (Qty: {{ $item->quantity }}) — ₹{{ number_format($item->price, 2) }}
+                                            </div>
+                                            
+                                            <!-- SELLER INFO -->
+                                            @php
+                                                $seller = $item->product ? $item->product->seller : null;
+                                            @endphp
+                                            <div class="seller-box">
+                                                🏬 <strong>Seller:</strong> {{ $seller ? $seller->name : 'UnCart Direct Merchant' }} 
+                                                @if($seller)
+                                                    <span style="font-size: 0.72rem; color: #78350f;">({{ $seller->email }})</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </td>
+
+                                <!-- TOTAL & PAYMENT -->
+                                <td>
+                                    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 800; color: #0f172a;">
+                                        ₹{{ number_format($order->total_amount, 2) }}
+                                    </div>
+                                    <div style="margin-top: 6px;">
+                                        <span class="table-badge {{ $order->payment_status === 'paid' ? 'success' : 'pending' }}">
+                                            {{ strtoupper($order->payment_method) }}: {{ ucfirst($order->payment_status) }}
+                                        </span>
+                                    </div>
+                                    @if($order->coupon_code)
+                                        <div style="font-size: 0.72rem; color: #16a34a; font-weight: 700; margin-top: 4px;">
+                                            🎟️ Promo: {{ $order->coupon_code }} (-₹{{ number_format($order->discount, 2) }})
+                                        </div>
+                                    @endif
+                                </td>
+
+                                <!-- STATUS BADGE -->
                                 <td>
                                     @php
                                         $badgeClass = 'info';
@@ -233,27 +340,44 @@
                                         elseif ($order->order_status === 'processing') $badgeClass = 'pending';
                                     @endphp
                                     <span class="table-badge {{ $badgeClass }}">
-                                        {{ ucfirst($order->order_status) }}
+                                        ● {{ ucfirst($order->order_status) }}
                                     </span>
                                 </td>
+
+                                <!-- ACTION FORM -->
                                 <td>
-                                    <form action="{{ route('admin.orders.update-status', $order->id) }}" method="POST" style="display: flex; flex-direction: column; gap: 6px;">
-                                        @csrf
-                                        @method('PUT')
-                                        <select name="order_status" class="status-select">
-                                            <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                            <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Processing</option>
-                                            <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Shipped</option>
-                                            <option value="delivered" {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Delivered</option>
-                                            <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                                        </select>
-                                        <select name="payment_status" class="status-select">
-                                            <option value="pending" {{ $order->payment_status == 'pending' ? 'selected' : '' }}>Payment Pending</option>
-                                            <option value="paid" {{ $order->payment_status == 'paid' ? 'selected' : '' }}>Payment Paid</option>
-                                            <option value="failed" {{ $order->payment_status == 'failed' ? 'selected' : '' }}>Payment Failed</option>
-                                        </select>
-                                        <button type="submit" class="action-circle-btn" style="padding: 4px 8px; font-size: 0.75rem;">Save</button>
-                                    </form>
+                                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                                        @if($order->order_status === 'pending')
+                                            <form action="{{ route('admin.orders.confirm', $order->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn-confirm-order" style="width: 100%; justify-content: center;">
+                                                    ✓ Confirm Order
+                                                </button>
+                                            </form>
+                                        @endif
+
+                                        <form action="{{ route('admin.orders.update-status', $order->id) }}" method="POST" style="display: flex; flex-direction: column; gap: 6px;">
+                                            @csrf
+                                            @method('PUT')
+                                            <label style="font-size: 0.7rem; font-weight: 700; color: #64748b;">Order Status:</label>
+                                            <select name="order_status" class="status-select">
+                                                <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                <option value="processing" {{ $order->order_status == 'processing' ? 'selected' : '' }}>Processing / Confirmed</option>
+                                                <option value="shipped" {{ $order->order_status == 'shipped' ? 'selected' : '' }}>Shipped</option>
+                                                <option value="delivered" {{ $order->order_status == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                                <option value="cancelled" {{ $order->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                            </select>
+
+                                            <label style="font-size: 0.7rem; font-weight: 700; color: #64748b; margin-top: 4px;">Payment Status:</label>
+                                            <select name="payment_status" class="status-select">
+                                                <option value="pending" {{ $order->payment_status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                <option value="paid" {{ $order->payment_status == 'paid' ? 'selected' : '' }}>Paid</option>
+                                                <option value="failed" {{ $order->payment_status == 'failed' ? 'selected' : '' }}>Failed</option>
+                                            </select>
+
+                                            <button type="submit" class="action-circle-btn" style="margin-top: 4px;">Update Status</button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

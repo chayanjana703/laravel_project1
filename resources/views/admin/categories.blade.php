@@ -103,6 +103,7 @@
                 <div class="nav-links">
                     <a href="{{ route('admin.index') }}" class="nav-link">Dashboard</a>
                     <a href="{{ route('admin.products.index') }}" class="nav-link">Products</a>
+                    <a href="{{ route('admin.orders.index') }}" class="nav-link">Orders</a>
                     <a href="{{ route('admin.categories.index') }}" class="nav-link active">Categories</a>
                     <a href="{{ route('admin.hero.index') }}" class="nav-link">Hero Section</a>
                     <a href="{{ route('admin.users.index') }}" class="nav-link">Users</a>
